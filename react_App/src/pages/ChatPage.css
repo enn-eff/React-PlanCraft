@@ -37,6 +37,10 @@
     display: inline-block;
     align-self: auto;
     width: 100%;
+    border: 2px solid orange;
+    /* padding: 10px; */
+    border-radius: 20px;
+    color: white;
 }
 .btn {
     display: inline-block;
@@ -61,4 +65,25 @@
     margin: 0;
     height: 100%;
     width: 100%;
+}
+
+.custom-List {
+    background-color: #ffffff;
+}
+
+.custom-ListItem {
+    padding: 10px;
+    font-weight: 2px;
+    /* overflow-y: scroll;
+    height: 80vh; */
+}
+
+.custom-Label {
+    font-weight: 600;
+}
+
+.custom-btn {
+    border: 2px solid #f5f6f9;
+    padding: 10px;
+    border-radius: 20px;
 }

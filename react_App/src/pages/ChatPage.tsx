@@ -6,58 +6,36 @@ import {
     IonChip,
     IonIcon,
     IonButton,
+    IonItem,
     IonPage,
     IonHeader,
     IonToolbar,
     IonAvatar,
     IonContent,
+    IonList,
 } from '@ionic/react';
-
 import { enterSharp, camera, call, settings } from 'ionicons/icons';
-
 import './ChatPage.css';
 
-var iterator = 0;
-var cv = false;
-var mainDiv: HTMLDivElement;
+type IState = {
+    myArray: string[];
+};
 
 const ChatPage = () => {
-    const [text, setText] = useState<string>();
-    const [value, setValue] = useState<string>();
+    const [inputText, setInputText] = useState<string>();
+    const [message, setMessage] = useState<IState>({
+        myArray: [],
+    });
 
-    function registroUsuario() {
-        setValue(text);
-        createElement();
-    }
-
-    function createElement() {
-        iterator++;
-        let container = document.getElementById('targetContainer');
-        let disappear = document.getElementById('ion-page');
-        debugger;
-        if (container !== null) {
-            if (cv === false) {
-                mainDiv = document.createElement('div');
-                mainDiv.setAttribute('id', 'mainChat');
-                container.insertBefore(mainDiv, container.firstChild);
-
-                cv = true;
-            }
-        }
-
-        let div = document.createElement('div');
-        div.innerHTML = `<IonList> <IonItem> <IonLabel>${text}</IonLabel></IonItem></IonList>`;
-        div.setAttribute('id', '' + iterator + '');
-
-        disappear && disappear.setAttribute('style', 'display: none;');
-        mainDiv.appendChild(div);
+    function sendMessage() {
+        setMessage({ myArray: [...message.myArray, inputText!] });
     }
 
     return (
-        <IonPage id='pagee'>
+        <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonChip class='badgeSize'>
+                    <IonChip>
                         <IonAvatar>
                             <img src='https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y' />
                         </IonAvatar>
@@ -78,27 +56,39 @@ const ChatPage = () => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent>
-                <div className='mainDiv'>
-                    <div id='targetContainer' className='container'>
-                        <div>
-                            <div className='grid-styling'>
-                                <div className='backgroundcolor'>
-                                    <IonTextarea
-                                        placeholder='Type a message...'
-                                        onIonChange={(e) =>
-                                            setText(e.detail.value!)
-                                        }></IonTextarea>
-                                </div>
-                                <div className='btn'>
-                                    <IonChip>
-                                        <IonButton
-                                            onClick={() => registroUsuario()}>
-                                            <IonIcon
-                                                icon={enterSharp}></IonIcon>
-                                        </IonButton>
-                                    </IonChip>
-                                </div>
+            <IonContent fullscreen>
+                <div id='targetContainer' className='container'>
+                    <IonList className='custom-List '>
+                        {message.myArray.map(
+                            (message: string, index: number) => (
+                                <IonItem
+                                    style={{ textAlign: 'center' }}
+                                    key={index}
+                                    className='custom-ListItem'>
+                                    <p> </p>
+
+                                    <IonLabel className='custom-Label'>
+                                        {message}
+                                    </IonLabel>
+                                </IonItem>
+                            )
+                        )}
+                    </IonList>
+                    <div>
+                        <div className='grid-styling'>
+                            <div className='backgroundcolor'>
+                                <IonTextarea
+                                    placeholder='Type a message...'
+                                    onIonChange={(e) =>
+                                        setInputText(e.detail.value!)
+                                    }></IonTextarea>
+                            </div>
+                            <div className='btn custom-btn'>
+                                <IonChip>
+                                    <IonButton onClick={() => sendMessage()}>
+                                        <IonIcon icon={enterSharp}></IonIcon>
+                                    </IonButton>
+                                </IonChip>
                             </div>
                         </div>
                     </div>
